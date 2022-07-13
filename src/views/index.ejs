@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        input.larger {
+          width: 50px;
+          height: 50px;
+        }
+      </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+        <br>
+    <div class="center">
+        <h1><%= title %></h1>
+
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <input type="text" placeholder="Title" id="title" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Description" class="form-control" name="description" rows="1" cols="80"></textarea>
+            </div>
+            <button class="btn btn-primary">Add</button>
+        </form>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < schema.length; i++){ %>
+                <tr>
+                    <td><%= i+1 %></td>
+                    <td><strong><%= schema[i].title %></strong></td>
+                    <td><strong><%= schema[i].description %></strong></td>
+                    <td>
+                        
+                        <a href="/done/<%= schema[i]._id %>"><input type="checkbox"></a>
+                        
+                        <a id="delete" class="btn btn-danger" href="/delete/<%= schema[i]._id %>">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+<script>
+    document.getElementById('title').focus();
+    document.querySelectorAll('.btn-danger').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+        let response = confirm('are you sure you want to delete it?');
+        if(!response){
+            e.preventDefault();
+        }
+    });
+    })
+</script>
+</html>
